@@ -1,0 +1,215 @@
+{
+	"variables": [],
+	"info": {
+		"name": "OAuth 2.0",
+		"_postman_id": "450e8903-12f5-bb89-4929-46812950be5b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "OAuth 2.0 ROPC",
+			"description": "",
+			"item": [
+				{
+					"name": "Register Client Application",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if ('client_id' in data) {",
+									"    postman.setEnvironmentVariable('client_id', data.client_id);",
+									"}",
+									"if ('client_secret' in data) {",
+									"    postman.setEnvironmentVariable('client_secret', data.client_secret);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{OAS-server}}{{tokenEndpointRegister}}",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Request access token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if ('access_token' in data) {",
+									"    postman.setEnvironmentVariable('access_token', data.access_token);",
+									"}",
+									"if ('refresh_token' in data) {",
+									"    postman.setEnvironmentVariable('refresh_token', data.refresh_token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{OAS-server}}{{tokenEndpoint}}",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"description": "",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Request refresh token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if ('access_token' in data) {",
+									"    postman.setEnvironmentVariable('access_token', data.access_token);",
+									"}",
+									"if ('refresh_token' in data) {",
+									"    postman.setEnvironmentVariable('refresh_token', data.refresh_token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{OAS-server}}{{tokenEndpoint}}",
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "{{client_id}}",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "{{client_secret}}",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "{{refresh_token}}",
+									"description": "",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Rate limit Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"if ('access_token' in data) {",
+									"    postman.setEnvironmentVariable('access_token', data.access_token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{CM-RS-server}}{{rate_limit_endpoint}}",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
